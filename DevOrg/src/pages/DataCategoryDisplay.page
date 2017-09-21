@@ -1,0 +1,5 @@
+<apex:page >
+    <!-- Navigation component used to display nested data categories -->
+    <c:DataCategoryNav catGroup="Sales_Questions" catRoot="Partner_Questions" />
+    <!-- <c:DataCategoryNav catGroup="Sales_Questions" catRoot="Customer_Questions" /> -->
+</apex:page>

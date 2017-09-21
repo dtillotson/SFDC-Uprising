@@ -1,0 +1,26 @@
+<!--
+// On this page we use a commandLink to invoke a method. CommandLink should be inside a 
+// form and thus will have an associated view state
+// *** Need to create ExampleController fo this to work
+-->
+<apex:page controller="myController6" >
+ 
+	<b>Example with command link (causing ViewState to be created) </b>
+	<br/>
+	<apex:form >   
+		<apex:commandLink value="Process Data" action="{!processData}"/>
+	</apex:form>
+
+	<br/><br/>	
+<!--//This code accomplishes the same without the need for a view state-->
+     <b> Example - using outputLink (No ViewState created)</b>
+     <br/>
+     <apex:outputLink value="/apex/MyPage2">Process Data</apex:outputLink>
+     
+</apex:page>
+
+<!-- ***Need to create MyPage2 for this to work
+// On MyPage2 you can invoke the method with action attribute
+<apex:page controller="myController6" action="{!processData}">
+</apex:page>
+-->

@@ -1,0 +1,35 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false"
+standardController="Merchandise__c" recordSetVar="products">
+
+  <apex:stylesheet value="{!URLFOR($Resource.styles, 'styles.css')}"/>
+  <h1>Inventory Count Sheet</h1>
+  <apex:form >
+    <apex:dataTable value="{!products}" var="pitem" rowClasses="odd,even">
+      <apex:column headerValue="Product">
+        <apex:outputText value="{!pitem.name}"/>
+      </apex:column>
+      <apex:column headerValue="Inventory">
+        <apex:outputField value="{!pitem.Total_Inventory__c}"/>
+        <!-- Error: Inline Editing is supported for API Version 21 and above. -->
+        <!--
+        <apex:outputField value="{!pitem.Total_Inventory__c}">
+          <apex:inlineEditSupport event="ondblclick" showOnEdit="update"/>
+        </apex:outputField>
+        -->
+      </apex:column>
+      
+      <apex:column headerValue="Physical Count">
+        <apex:inputField value="{!pitem.Total_Inventory__c}"/>
+      </apex:column>
+      
+    </apex:dataTable>
+    <br/>
+    <!-- Adds a button to perform a quicksave and update the values on the records -->
+    <!-- <apex:commandButton action="{!quicksave}" value="Update Counts"/> -->
+    <apex:commandButton id="update" action="{!quicksave}" value="Update Counts" styleclass="updateButton"/>
+    
+    <!-- Used for pagination -->
+    <apex:commandLink action="{!next}" value="Next" rendered="{!hasNext}"/>
+  </apex:form>
+  
+</apex:page>

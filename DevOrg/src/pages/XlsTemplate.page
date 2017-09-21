@@ -1,0 +1,13 @@
+<apex:page standardController="Account" contenttype="application/vnd.ms-excel">
+   <apex:pageBlock title="Hello {!$User.FirstName}!">
+      You are viewing the {!account.name} account.
+   </apex:pageBlock>
+   <apex:pageBlock title="Contacts">
+      <apex:pageBlockTable columns="4" border="1" value="{!account.Contacts}" var="contact">
+         <apex:column title="Name" value="{!contact.Name}"/>
+         <apex:column title="Email" value="{!contact.Email}"/>
+         <apex:column title="Phone" value="{!contact.Phone}"/>
+         <apex:column title="Concatenate" value="{!'=CONCATENATE(A7, B7, C7)'}"/>
+      </apex:pageBlockTable>
+   </apex:pageBlock>
+</apex:page>

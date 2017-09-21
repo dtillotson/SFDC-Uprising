@@ -1,0 +1,17 @@
+<apex:page standardController="Account" extensions="AcctExtension" recordSetVar="accts">
+  <apex:form >
+  <apex:pageBlock >
+    <apex:pageBlockTable value="{!accts}" var="acct">
+      <apex:column headerValue="{!$ObjectType.Account.Fields.Name.Label}">
+        <apex:outputField value="{!acct.name}"/>
+      </apex:column>
+      <apex:column value="{!acct.phone}"/>
+      <apex:inlineEditSupport event="ondblclick" showOnEdit="save,cancel"/>
+    </apex:pageBlockTable>
+    <apex:pageBlockButtons >
+      <apex:commandButton id="save" value="Save" action="{!save}"/>
+      <apex:commandButton id="cancel" value="Cancel" action="{!cancel}"/>
+    </apex:pageBlockButtons>
+  </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,37 @@
+<apex:page standardController="Account">
+     <br/><b>Hello {!$User.FirstName}</b> - The current Base URL for this org is {!Account.BaseURL__c}.<br/><br/>
+     <apex:detail relatedList="false"/>
+     <apex:relatedList list="Contacts"/>
+     <apex:relatedList list="Opportunities"/>
+     <!--
+     <div style="width:100%; height:100px; border: 1px solid #000000; background:#c0c0c0; color:#FFFFFF">
+          <br/>
+          <h3>Please see Full Details below:</h3>
+          <p>
+          Training is a fundamental aspect of our mission to strengthen the state’s business climate and help Floridians enter, remain and advance in the workforce.
+          <br/>
+          In order to access the applications, you must first establish a Community Account. If you have an account, please enter your credentials.
+          <br/>
+          Please contact CareerSource Florida if you have any problems.
+          </p>
+     </div>
+     -->
+
+     <br/>
+     <div align="center">
+     <!-- Use $Action global varialble to access the New action reference -->
+     <apex:outputLink value="{!URLFOR($Action.Account.New)}">New</apex:outputLink>
+     &nbsp;
+     <!-- View action requires the id parameter, a standard controller can be used to obtain the id -->
+     <apex:outputLink value="{!URLFOR($Action.Account.View, account.id)}">View</apex:outputLink>
+     &nbsp;
+     <!-- Edit action requires the id parameter, id is taken from standard controller in this example -->
+     <apex:outputLink value="{!URLFOR($Action.Account.Edit, account.id)}">Edit</apex:outputLink>
+     &nbsp;
+     <!-- Delete action requires the id parameter, also a confirm message is added to prevent deleting the record when clicked by mistake -->
+     <apex:outputLink value="{!URLFOR($Action.Account.Delete, account.id)}" onclick="return window.confirm('Are you sure?');">Delete</apex:outputLink>
+     &nbsp;
+     <!-- From all custom buttons, links, s-controls and visualforce pages you can use the following to get the link of the object's homepage -->
+     <apex:outputLink value="{!URLFOR($Action.Account.Tab, $ObjectType.Account)}">Home</apex:outputLink>
+     </div>
+</apex:page>

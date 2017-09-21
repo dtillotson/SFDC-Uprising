@@ -1,0 +1,49 @@
+<apex:page standardController="Restaurant__c" recordSetVar="restaurants" cache="false" extensions="yelp">
+    <apex:form >
+    <apex:pageBlock title="My Favorite SF Restaurants">
+        <apex:outputPanel id="mypanel">
+            <apex:pageBlockTable var="r" value="{!restaurants}">
+                <apex:column headerValue="Name">
+                    <apex:outputLink value="/{!r.Id}">{!r.Name}</apex:outputLink>
+                </apex:column>
+                
+                <apex:column headerValue="Cuisine">
+                    <apex:outputText value="{!r.Picture__c}" escape="false" />
+                </apex:column>
+                
+                <apex:column headerValue="Yelp Rating" styleClass="ratingClass">
+                    <apex:outputText value="{!r.Yelp_Rating__c}" escape="false" />
+                </apex:column>
+                
+                <apex:column headerValue="Type">
+                    <apex:outputField value="{!r.Type__c}" />
+                </apex:column>
+                 
+                <apex:column headerValue="Neighborhood">
+                    <apex:outputField value="{!r.Neighborhood__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Address">
+                    <apex:outputField value="{!r.Address__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Phone">
+                    <apex:outputField value="{!r.Phone__c}" />
+                </apex:column>
+                
+                <apex:column headervalue="Site">
+                    <apex:outputField value="{!r.Site__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Total Visits">
+                    <apex:outputField value="{!r.Num_of_Visits__c}" />
+                    <br/>
+                    <apex:commandLink styleClass="btn" value="Visited" action="{!increaseVisitCount}" rerender="mypanel">
+                        <apex:param name="restaurant" value="{!r.Id}" />
+                    </apex:commandLink>
+                </apex:column>
+            </apex:pageBlockTable>
+        </apex:outputPanel>
+    </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,54 @@
+<apex:component id="DataCategoryNav" allowDML="true" controller="DataCategoryController">
+
+    <apex:attribute name="catGroup" type="string" description="This is the group level data category for the component." assignTo="{!categoryGroupName}"/>
+	<apex:attribute name="catRoot" type="string" description="This is the root level data category for the component." assignTo="{!categoryRootName}"/>
+    
+
+    <!--<apex:outputPanel layout="none" rendered="{!$User.ContactId=='003g00000042LdCAAU'}" >-->
+    <apex:outputPanel layout="none">
+        <!--
+        <apex:outputText value="Category Root value is {!catRoot}"/>
+        <apex:outputText value="Category Group value is {!catGroup}"/>
+        -->
+        <!-- Original code that lists all categories and sub-categories at the same level -->
+        <!--
+        <knowledge:categoryList categoryVar="cat" categoryGroup="{!catGroup}" rootCategory="{!catRoot}" level="5">
+            <apex:outputLink value="gpcArticles" styleclass="{!IF($CurrentPage.Parameters.Category==cat.name,'ideaCategorySelected','ideaCategoryLink')}" style="display:block;margin-right:25px">
+                <apex:outputtext value="{!cat.label}"/>
+                <apex:param name="category" value="{!cat.name}" />
+            </apex:outputLink>
+        </knowledge:categoryList>
+        -->
+
+        <knowledge:categoryList categoryVar="cat" categoryGroup="{!catGroup}" rootCategory="{!catRoot}" level="-1">
+            <apex:outputLink value="{!PageName}" styleclass="{!IF($CurrentPage.Parameters.Category==cat.name,'ideaCategorySelected','ideaCategoryLink')}" style="display:block;margin-right:25px">
+                <!-- Minor indention for top level categories -->
+			    <apex:outputtext escape="false" value="{!LPAD(' ',1*cat.depth,'&nbsp;')}" rendered="{!cat.depth == 1}"/>
+			    <!-- More pronounced indention for sub-categories -->
+			    <apex:outputtext escape="false" value="{!LPAD(' ',12*cat.depth,'&nbsp;')}" rendered="{!cat.depth != 1}"/>
+			    	{!cat.label}
+                <apex:param name="category" value="{!cat.name}" />
+            </apex:outputLink>
+        </knowledge:categoryList>
+                
+        <br/><br/>
+        <apex:outputText value="{!SchemaDetails}" />
+
+        <br/><br/>
+        <apex:outputText value="{!DataCategoryGroupInfo}" />
+        
+        <br/><br/>
+        <apex:outputText value="{!DataCategoryInfo}" />
+        
+        <!--
+        <br/><br/>
+        <apex:repeat value="{!DescribeDataCategoryGroupStructureResults}" var="string" id="theRepeat2">
+            <apex:outputText value="{!string}" id="theValue2"/><br/>
+        </apex:repeat>
+        
+        <br/><br/>
+        <apex:outputText value="{!PartnerQuestionsDetails1}" />
+        -->         
+    </apex:outputPanel>
+
+</apex:component>

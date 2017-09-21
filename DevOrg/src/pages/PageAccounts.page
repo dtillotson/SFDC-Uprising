@@ -1,0 +1,27 @@
+<apex:page standardController="Account" recordSetVar="accounts">
+    <apex:form >
+        <apex:pageBlock title="Accounts">
+
+            <!-- pagination controls -->
+            <!-- add standard pagination binding tags -->
+            <apex:outputText value="{!resultSize}"/> found. &nbsp;
+            <apex:commandLink value="First" action="{!first}" rendered="{!hasPrevious}"/>&nbsp;
+            <apex:commandLink value="Previous" action="{!previous}" rendered="{!hasPrevious}"/>&nbsp;
+            <apex:commandLink value="Next" action="{!next}" rendered="{!hasNext}"/>&nbsp;
+            <apex:commandLink value="Last" action="{!last}" rendered="{!hasNext}"/>&nbsp;
+            <!-- end pagination controls -->
+
+            <!-- list view -->
+            <apex:pageBlockTable value="{!accounts}" var="account">
+                <apex:column headerValue="Name">
+                    <apex:outputField value="{!account.Name}"/>
+                </apex:column>
+                <apex:column headerValue="Created Date">
+                    <apex:outputField value="{!account.CreatedDate}"/>
+                </apex:column>
+            </apex:pageBlockTable>
+            <!-- end list view -->
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,33 @@
+<apex:page controller="CheckboxExamplesController">
+    <apex:form >
+    <!--
+    <apex:pageBlockSection title="Checkbox City!">
+        <apex:repeat var="o" value="{!Options}">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="{!o.label}"/>
+                <apex:outputText value="{!o.HTML}" escape="false"/>
+            </apex:pageBlockSectionItem>
+        </apex:repeat>
+
+    </apex:pageBlockSection>
+    -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script type="text/javascript">
+    jQuery.noConflict();
+    function saveCheckboxes()
+    {
+        var Checkboxes = "";
+        jQuery(".cboxChoice").each(function(){
+        if(jQuery(this).attr("checked") && jQuery(this).attr("id") != undefined)
+        {
+            Checkboxes += jQuery(this).attr("id") + ";";
+        }
+    });
+    document.getElementById('{!$Component.hiddenCheckboxes}').value = Checkboxes;
+    }
+    </script>
+
+    <!--<apex:inputHidden id="hiddenCheckboxes" value="{!Checkboxes__c}"/>-->
+    
+    </apex:form>  
+</apex:page>

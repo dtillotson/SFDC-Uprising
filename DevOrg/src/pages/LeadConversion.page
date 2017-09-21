@@ -1,0 +1,97 @@
+<apex:page standardController="Lead" extensions="LeadConvertController" standardStylesheets="false" sidebar="false" title="Lead Conversion" contentType="text/html" cache="false" showHeader="false">
+    <apex:composition template="{!$Site.Template}">
+        <!--
+        <apex:define name="style">
+            <c:gcaChatterAnswersStyles />
+        </apex:define>
+        -->
+        <apex:define name="body">
+            <!--
+            <c:gcaSiteStyles />
+            -->
+            <div id="title" style="width:100%; margin-bottom:25px;">
+                Convert Lead - {!lead.name}
+            </div>
+            <div style="padding-bottom:20px;">
+               Leads can be converted to accounts, contacts, opportunities..<br/>
+               You should only convert a lead once you have identified it as qualified.<br/>
+               After this lead has been converted, it can no longer be viewed or edited as a lead, but can be viewed in lead reports.<br/>
+            </div>
+            
+            <apex:form >
+            <div class="csMini">
+            <div class="threecolumn">
+        
+                <apex:pageblock >
+                    <apex:pageblockButtons location="both" style="align:center;padding-bottom:10px;">
+                        <apex:commandbutton styleclass="action" style="font-weight:700;font-size:0.625em" onclick="alert('Still working on backend code')" value="Convert"/>
+                        <apex:commandbutton styleclass="action" style="font-weight:700;font-size:0.625em" action="{!Cancel}" value="Cancel"/>
+                    </apex:pageblockButtons>
+                    
+                    <apex:outputPanel layout="block" styleClass="newIdeaDetail">
+                    
+                    <apex:messages styleclass="ideaErrors"/>
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Record Owner" />
+                            <apex:inputField value="{!oLead.OwnerId}"/> 
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Send Email to the Owner" />
+                            <apex:inputcheckbox value="{!sendEmailToOwner}"/>
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Account Name" />
+                            <apex:outputPanel >
+                            <div style="padding-bottom:4px;">
+                              <apex:inputcheckbox id="pbsiAccountChkBox" value="{!createNewAccount}" onclick="handleCreateNewAccountCheckbox();"/>
+                              <span> Create New Account</span><span style="display:inline-block;padding-left:10px;font-weight:bold;">[{!oLead.Company}]</span>
+                            </div>
+                            <apex:InputField style="width:200px;" id="accountId" value="{!dummyContact.AccountId}"/>
+                            </apex:outputPanel>
+                       
+                            <apex:OutputLabel styleclass="gcaLabel" value="Opportunity Name" />
+                            <apex:outputPanel >
+                            <apex:InputText style="width:200px;" id="optyName" value="{!OpportunityName}"/><br/>
+                            <apex:inputcheckbox id="pbsiOpportunityChkBox" value="{!donotCreateNewOpty}" onclick="handleCreateOpportunityCheckbox();"/>
+                            <span styleclass="gcaLabel">Do not create a new opportunity upon conversion.</span>
+                            </apex:outputPanel>
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Converted Status" />
+                            <apex:selectList value="{!convertedStatus}" size="1">
+                              <apex:selectOptions value="{!lstConvertedStatus}" />
+                            </apex:selectList>
+                        
+                            <br/><br/>
+                            <span style="font-weight:700;font-size:1.0em">Task Information</span>
+                            <br/>
+                            <apex:OutputLabel styleclass="gcaLabel" value="Subject" />
+                            <apex:InputField id="idSubject" value="{!tsk.Subject}" required="true"/> 
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Due Date" />
+                            <apex:InputField id="idActivityDate" value="{!tsk.ActivityDate}" required="true"/>
+                            <!--
+                            <apex:OutputLabel styleclass="gcaLabel" value="Activity Currency" />
+                            <apex:InputField id="idCurrencyIsoCode" value="{!tsk.CurrencyIsoCode}" required="true"/>
+                            -->                           
+                            <apex:OutputLabel styleclass="gcaLabel" value="Comments" />
+                            <apex:InputField id="idDescription" value="{!tsk.Description}"/>
+                                                
+                            <br/><br/>
+                            <span style="font-weight:700;font-size:1.0em">Additional Information</span>
+                            <br/>
+                            <apex:OutputLabel styleclass="gcaLabel" value="Status" />
+                            <apex:InputField value="{!tsk.Status}" required="true"/>
+                        
+                            <apex:OutputLabel styleclass="gcaLabel" value="Priority" />
+                            <apex:InputField value="{!tsk.Priority}"/> 
+                        
+                    </apex:outputPanel>
+                    <br/>
+                </apex:pageBlock>
+                <div class="clearingBox"></div>
+                
+            </div>
+            </div>                
+            </apex:form>
+            
+        </apex:define>
+    </apex:composition>
+</apex:page>

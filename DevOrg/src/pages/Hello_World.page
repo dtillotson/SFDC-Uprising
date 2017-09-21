@@ -1,0 +1,14 @@
+<apex:page standardController="Account">
+  <b>Hello {!$User.FirstName}</b><br/><br/>
+  <apex:form >
+      <apex:pageBlock tabStyle="Job_Application__c" title="Quick Change">
+          <apex:PageBlockSection columns="3">
+              <apex:inputField value="{!Account.Name}"/>
+              <apex:inputField value="{!Account.NumberOfEmployees}"/>
+              <apex:commandButton value="Update" action="{!Save}"/>
+          </apex:PageBlockSection>
+      </apex:pageBlock>
+  </apex:form>
+  <apex:detail relatedList="false"/>
+  <apex:relatedList list="Contacts"/>
+</apex:page>

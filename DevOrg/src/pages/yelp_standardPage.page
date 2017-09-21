@@ -1,0 +1,115 @@
+<apex:page standardController="Restaurant__c" recordSetVar="restaurants" cache="false"
+  sidebar="false" showheader="false" standardStylesheets="false" extensions="yelp">
+    <apex:includeScript value="{!$Resource.jquery180}"/>
+    <apex:includeScript value="{!$Resource.jquery_uicore}"/>
+    <apex:includeScript value="{!$Resource.jquery_uiwidget}"/>
+    <apex:includeScript value="{!$Resource.jquery_uimouse}"/>
+    <apex:includeScript value="{!$Resource.jquery_uisortable}"/>
+    
+    <apex:include pagename="btnStylesheet" />
+    
+    <style>
+        body {
+            font-family: Arial;
+        }
+        
+        .ratingClass {
+            background: #fff;
+            padding:0px;
+        }
+        
+        #myTitle {
+            font-weight:bold;
+            color: #444;
+            font-size:30px;
+        }
+        
+        .myTable {
+            vertical-align: middle;
+            text-align: center;
+        }
+        
+        .myTable td {
+            padding: 10px;
+            border: 1px solid #444;
+        }
+        
+        .myTable a {
+            color: #3b65a7;
+            font-weight: bold;
+        }
+        
+        .tableHeader {
+            background: #c71d0c;
+            color: white;
+            font-size:22px;
+            font-weight:bold;
+        }
+        
+        .odd {
+            background:#ffffe5;
+            border: 1px solid #444;
+            font-size:16px;
+        }
+        
+        .even {
+            background: #ffcc00;
+            border: 1px solid #444;
+            font-size:16px;
+        }
+    </style>
+    
+    <script>
+        $(document).ready(function(){
+            $('tbody').sortable();
+            $('tbody').disableSelection();
+        });
+    </script>
+    
+    <apex:form >
+        <apex:outputPanel id="mypanel">
+            <h1 id="myTitle">My Favorite SF Restaurants</h1>
+            <apex:dataTable var="r" value="{!restaurants}" rowClasses="odd,even" styleClass="myTable" headerClass="tableHeader" id="sortable">
+                <apex:column headerValue="Name">
+                    <apex:outputLink value="/{!r.Id}">{!r.Name}</apex:outputLink>
+                </apex:column>
+                
+                <apex:column headerValue="Cuisine">
+                    <apex:outputText value="{!r.Picture__c}" escape="false" />
+                </apex:column>
+                
+                <apex:column headerValue="Yelp Rating" styleClass="ratingClass">
+                    <div class="ratingDiv"><apex:outputText value="{!r.Yelp_Rating__c}" escape="false" /></div>
+                </apex:column>
+                
+                <apex:column headerValue="Type">
+                    <apex:outputField value="{!r.Type__c}" />
+                </apex:column>
+                 
+                <apex:column headerValue="Neighborhood">
+                    <apex:outputField value="{!r.Neighborhood__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Address">
+                    <apex:outputField value="{!r.Address__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Phone">
+                    <apex:outputField value="{!r.Phone__c}" />
+                </apex:column>
+                
+                <apex:column headervalue="Site">
+                    <apex:outputField value="{!r.Site__c}" />
+                </apex:column>
+                
+                <apex:column headerValue="Total Visits">
+                    <apex:outputField value="{!r.Num_of_Visits__c}" />
+                    <br/>
+                    <apex:commandLink styleClass="classname" value="Visited" action="{!increaseVisitCount}" rerender="mypanel">
+                        <apex:param name="restaurant" value="{!r.Id}" />
+                    </apex:commandLink>
+                </apex:column>
+            </apex:dataTable>
+        </apex:outputPanel>
+    </apex:form>
+</apex:page>

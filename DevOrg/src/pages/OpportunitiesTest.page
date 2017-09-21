@@ -1,0 +1,15 @@
+<apex:page standardController="Opportunity" recordSetVar="Opps" standardStylesheets="true" sidebar="false" title="Partner Community Opportunities" contentType="text/html" cache="false" showHeader="false">
+    <!--<apex:composition template="{!$Site.Template}">-->
+        <apex:define name="body">
+        <br/>
+            <apex:pageBlock >
+                <apex:pageBlockTable value="{!Opps}" var="Opp">
+                  <apex:column headerValue="{!$ObjectType.Opportunity.Fields.Name.Label}">
+                    <apex:outputField value="{!Opp.name}"/>
+                  </apex:column>
+                  <apex:column value="{!Opp.type}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:define>
+    <!--</apex:composition>-->
+</apex:page>

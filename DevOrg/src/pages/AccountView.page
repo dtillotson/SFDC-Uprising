@@ -1,0 +1,7 @@
+<apex:page standardController="Account">
+  <!--
+  Ability to view a single account
+  must pass in id /apex/AccountView?id=001A0000005FdQ1
+  -->
+  <apex:detail inlineEdit="true" showChatter="true"/>
+</apex:page>

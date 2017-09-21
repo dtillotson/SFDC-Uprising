@@ -1,0 +1,4 @@
+<apex:component >
+    <apex:attribute name="panel" type="String" description="Page to refresh when pagination methods are clicked." required="true"/>
+    <apex:attribute name="pController"  type="DynamicListController" description="Dynamic List Controller that requires pagination" required="true"/>
+</apex:component>

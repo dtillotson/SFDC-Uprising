@@ -1,0 +1,11 @@
+<apex:component >
+    <apex:attribute name="panel" type="String" description="Page to refresh when pagination methods are clicked." required="true"/>
+    <apex:attribute name="column" type="String" description="Column" required="true"/>
+    <apex:attribute name="header" type="String" description="Column Header" required="true"/>
+    <apex:attribute name="sController" type="DynamicListController" description="Dynamic List Controller that requires pagination" required="true"/>
+  
+    <apex:commandLink action="{!sController.sort}" value="{!header}" rerender="{!panel}" status="status">
+        <apex:param name="a" assignTo="{!sController.column}" value="{!column}"/>
+        <apex:image value="{!IF(sController.sortColumn = column, IF(sController.sortAsc = true, '/img/sort_asc_arrow.gif','/img/sort_desc_arrow.gif'),'/s.gif')}"/>
+    </apex:commandLink> 
+</apex:component>

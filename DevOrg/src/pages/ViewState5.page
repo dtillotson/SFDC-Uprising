@@ -1,0 +1,6 @@
+<apex:page controller="myController5">
+  The Current Time is : {!currentDateTime} <br/>
+  <apex:form >
+    <apex:commandLink value="refresh"/>
+  </apex:form>
+</apex:page>
