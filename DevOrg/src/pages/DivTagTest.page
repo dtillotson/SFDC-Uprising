@@ -1,5 +1,6 @@
 <apex:page standardController="Account">
      <br/><b>Hello {!$User.FirstName} {!$User.LastName}</b> - The current Base URL for this org is {!Account.BaseURL__c}.<br/><br/>
+     See below for Account Details:
      <apex:detail relatedList="false"/>
      <apex:relatedList list="Contacts"/>
      <apex:relatedList list="Opportunities"/>

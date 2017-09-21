@@ -1,5 +1,6 @@
 <apex:page standardController="Account">
     <b>Hello {!$User.FirstName} {!$User.LastName}</b><br/><br/>
+    See below for Account Details:
     <apex:detail relatedList="false"/>
     <apex:relatedList list="Contacts"/>
 </apex:page>
