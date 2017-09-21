@@ -1,5 +1,5 @@
 /* ============================================================
- * This code is part of the "apex-lang" open source project avaiable at:  DKT
+ * This code is part of the "apex-lang" open source project avaiable at:
  * 
  *      http://code.google.com/p/apex-lang/
  *
