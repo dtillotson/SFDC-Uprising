@@ -1,6 +1,6 @@
 <apex:page standardController="Account">
     <b>Hello {!$User.FirstName} {!$User.LastName}</b><br/><br/>
-    See below for Account Details:
+    See below for Account Details (must have Account ID in URL):
     <apex:detail relatedList="false"/>
     <apex:relatedList list="Contacts"/>
 </apex:page>
