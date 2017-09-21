@@ -1,5 +1,5 @@
 <apex:page standardController="Account">
-    <b>Hello {!$User.FirstName}</b><br/><br/>
+    <b>Hello {!$User.FirstName} {!$User.LastName}</b><br/><br/>
     <apex:detail relatedList="false"/>
     <apex:relatedList list="Contacts"/>
 </apex:page>
