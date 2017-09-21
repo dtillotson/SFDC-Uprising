@@ -1,0 +1,2 @@
+<apex:page standardController="zkups__UPSShipment__c" recordSetVar="Shipment" extensions="zkups.ManagerPageRedirectController" action="{! init }">
+</apex:page>

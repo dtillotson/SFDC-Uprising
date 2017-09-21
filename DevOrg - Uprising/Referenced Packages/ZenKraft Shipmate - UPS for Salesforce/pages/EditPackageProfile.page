@@ -1,0 +1,108 @@
+<apex:page tabStyle="zkups__UPSPackage__c" standardController="zkups__UPSPackage__c" extensions="zkups.PackageProfileController" action="{! init }">
+    <apex:stylesheet value="{! $Resource.WizardCSS }"/>
+
+    <apex:sectionHeader title="Package Profile Edit"  subtitle="Edit Package Profile"/>
+
+    <apex:form id="formId">
+
+        <apex:pageBlock title="Package Profile Edit" mode="detail">
+                    
+            <apex:pageBlockButtons >
+                <apex:commandButton action="{! savePackageProfile }" value="Save"/>
+                <apex:commandButton action="{! cancelPackageProfile }" immediate="true" value="Cancel"/>
+            </apex:pageBlockButtons>
+            
+            <!-- Messages -->
+            <apex:outputPanel id="shipmatePreferenceAddMsg">
+                <c:MessageListDisplay id="MessageList" msgList="{! messageList }"/>
+            </apex:outputPanel>
+
+            <apex:outputPanel id="packageProfilePanelId">
+                <apex:pageBlockSection collapsible="false" title="Package Profile">
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Package Profile Description"/>
+                        <apex:inputField value="{! packageProfile.PackageProfileDescription__c }" />
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+
+            <apex:outputPanel id="packagingTypePanelId">
+                <apex:pageBlockSection collapsible="false" title="Package Profile">
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Packaging Type"/>
+                        <apex:selectList value="{! packageProfile.PackagingType__c }" size="1" multiselect="false">
+                            <apex:selectOptions value="{! PackageTypeOptions }"/>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+
+            <apex:outputPanel id="weightPanelId">
+                <apex:pageBlockSection collapsible="false" title="Weight">
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Weight"/>
+                        <apex:inputField value="{! packageProfile.Weight__c }" />
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Weight Units"/>
+                        <apex:selectList value="{! packageProfile.WeightUnits__c }" size="1" multiselect="false">
+                            <apex:selectOptions value="{! WeightUnitOptions }"/>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+
+            <apex:outputPanel id="dimensionsPanelId">
+                <apex:pageBlockSection collapsible="false" title="Dimensions">
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Length"/>
+                        <apex:inputField value="{! packageProfile.Length__c }" />
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Width"/>
+                        <apex:inputField value="{! packageProfile.Width__c }" />
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Height"/>
+                        <apex:inputField value="{! packageProfile.Height__c }" />
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Dimension Units"/>
+                        <apex:selectList value="{! packageProfile.DimensionUnits__c }" size="1" multiselect="false">
+                            <apex:selectOptions value="{! DimensionUnitOptions }"/>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+
+
+
+            <apex:outputPanel id="declaredValuePanelId">
+                <apex:pageBlockSection collapsible="false" title="Declared Value">
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Declared Value"/>
+                        <apex:inputField value="{! packageProfile.DeclaredValue__c }" />
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+            </apex:outputPanel>
+
+            
+
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,1004 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>internationalShipmentHelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>UPS EEI Form is a collection of data defined for generating a Electronic Export Information</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>ECCNNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Product ECCN Number issued by BIS (Bureau of Industry and Security). The format is #A### or EAR99</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Product ECCN Number issued by BIS (Bureau of Industry and Security). The format is #A### or EAR99</inlineHelpText>
+        <label>ECCN Number</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>EEIEmailAddress__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Email Address where the notification is sent</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Email Address where the notification is sent</inlineHelpText>
+        <label>EEI Email Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>EEIFillingType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>EEI Filling Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Shipper filed</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>UPS filed</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>EEIShipper__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Indicates the EEI Shipper sub option</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates the EEI Shipper sub option</inlineHelpText>
+        <label>EEI Shipper</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>EEIFillingType__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Requires the ITN</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Requires the Exemption Legend</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Requires the post departure filing citation</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>Requires the ITN</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>Requires the Exemption Legend</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>Requires the post departure filing citation</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>EEIUPSFiledPOA__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>EEI UPS Filed POA</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>One Time POA</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Blanket POA</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>EntryNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Import Entry Number when the export transaction is used as proof of export for import transactions (examples: In Bond, Temporary Import Bond or Drawbacks)
+
+Conditionally Required for SED forms when In Bond Code value is other than 70 (&quot;Not In Bond&quot;)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Import Entry Number when the export transaction is used as proof of export for import transactions (examples: In Bond, Temporary Import Bond or Drawbacks)
+
+Conditionally Required for SED forms when In Bond Code value is other than 70 (&quot;Not In Bond&quot;)</inlineHelpText>
+        <label>Entry Number</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ExemptionLegend__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Exemption Legend</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>EEIFillingType__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>30.2(d)(2)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.26(a)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.36</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(a)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(b)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(c)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(d)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(f)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(h)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(i)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(j)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(k)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(l)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(m)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(n)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(o)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(p)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(q)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(r)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(s)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(t)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(u)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(x)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(1)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(2)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(3)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(4)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(5)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.37(y)(6)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.39</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.40(a)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.40(b)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.40(c)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.40(d)</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>30.8(b)</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.2(d)(2)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.26(a)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.36</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(a)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(b)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(c)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(d)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(f)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(h)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(i)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(j)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(k)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(l)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(m)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(n)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(o)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(p)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(q)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(r)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(s)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(t)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(u)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(x)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(1)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(2)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(3)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(4)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(5)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.37(y)(6)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.39</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.40(a)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.40(b)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.40(c)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.40(d)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <valueName>30.8(b)</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentCity__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent City</label>
+        <length>30</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentCompanyName__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent Company Name</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentCountryCode__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent Country Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentEinIrsNo__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent&apos;s EIN (IRS) NO</label>
+        <length>15</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentPostalCode__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent Postal Code</label>
+        <length>9</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentStateProvince__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent State/Province</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ForwardingAgentStreet__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Forwarding Agent Street</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>InBondCode__c</fullName>
+        <deprecated>false</deprecated>
+        <description>70: Not in bond
+36: Warehouse withdrawal for IE
+37: Warehouse withdrawal for T and E
+62: T and E
+63: IE
+67: IE from a FTZ
+68: T and E from a FTZ</description>
+        <externalId>false</externalId>
+        <inlineHelpText>70: Not in bond
+36: Warehouse withdrawal for IE
+37: Warehouse withdrawal for T and E
+62: T and E
+63: IE
+67: IE from a FTZ
+68: T and E from a FTZ</inlineHelpText>
+        <label>In Bond Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>70</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>36</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>37</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>62</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>63</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>67</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>68</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>LicenseCode__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The standard license code published by US government (from C30 to C60)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The standard license code published by US government (from C30 to C60)</inlineHelpText>
+        <label>License Code</label>
+        <length>3</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LicenseDate__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>License Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>LicenseLineValue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The export monetary amount allowed per license. Required for a licensable product when the EEI form is selected</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The export monetary amount allowed per license. Required for a licensable product when the EEI form is selected</inlineHelpText>
+        <label>License Line Value</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LicenseNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>License Number</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LoadingPier__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Loading Pier</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ModeOfTransport__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Mode of Transport</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Air</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Air Containerized</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Auto</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Fixed Transport Installations</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Mail</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Passenger Handcarried</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pedestrian</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rail</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Rail Containerized</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Road Other</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sea Barge</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sea Containerized</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Sea Non-containerized</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Truck</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Truck Containerized</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>PointOfOrigin__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Contains either the two-digit U.S. Postal Service abbreviation for the state from which the goods were shipped (user PR for Puerto Rico), or the Foreign Trade Zone number of the zone from where the exports are leaving.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contains either the two-digit U.S. Postal Service abbreviation for the state from which the goods were shipped (user PR for Puerto Rico), or the Foreign Trade Zone number of the zone from where the exports are leaving.</inlineHelpText>
+        <label>Point of Origin</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PortOfExport__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Port of Export</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PortOfUnloading__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Port of Unloading</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PreDepartureITNNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The format is available from AESDirect website</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The format is available from AESDirect website</inlineHelpText>
+        <label>Pre Departure ITN Number</label>
+        <length>17</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ShipperTaxId__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Company Tax ID of the Shipper.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Company Tax ID of the Shipper.</inlineHelpText>
+        <label>Shipper Tax ID</label>
+        <length>30</length>
+        <maskChar>asterisk</maskChar>
+        <maskType>lastFour</maskType>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>EncryptedText</type>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeCity__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee City</label>
+        <length>30</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeCompanyName__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee Company Name</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeCountryCode__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee Country Code</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneePostalCode__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee Postal Code</label>
+        <length>9</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeStateProvince__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee State/Province</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeStreet__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Up to 3 lines maximum. Each line must be no more than 35 characters long.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Up to 3 lines maximum. Each line must be no more than 35 characters long.</inlineHelpText>
+        <label>Ultimate Consignee Street</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>UltimateConsigneeType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Ultimate Consignee Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>EEIFillingType__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Direct Consumer</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Government Entity</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Resellr</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other/Unknown</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <controllingFieldValue>UPS filed</controllingFieldValue>
+                <valueName>Direct Consumer</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <controllingFieldValue>UPS filed</controllingFieldValue>
+                <valueName>Government Entity</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <controllingFieldValue>UPS filed</controllingFieldValue>
+                <valueName>Resellr</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Shipper filed</controllingFieldValue>
+                <controllingFieldValue>UPS filed</controllingFieldValue>
+                <valueName>Other/Unknown</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <label>UPS EEI Form</label>
+    <nameField>
+        <displayFormat>UPS-EEI-{0000}</displayFormat>
+        <label>UPS EEI Form Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>UPS EEI Forms</pluralLabel>
+    <searchLayouts>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>CheckUltimate_Consignee_Type</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(TEXT(EEIFillingType__c)=&apos;Shipper filed&apos;,TEXT(UltimateConsigneeType__c) = null)</errorConditionFormula>
+        <errorDisplayField>UltimateConsigneeType__c</errorDisplayField>
+        <errorMessage>Please select option</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Requires_the_Exemption_Legend_Check</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(TEXT(EEIShipper__c)=&apos;Requires the Exemption Legend&apos;,TEXT(ExemptionLegend__c)=null)</errorConditionFormula>
+        <errorDisplayField>ExemptionLegend__c</errorDisplayField>
+        <errorMessage>Please select option</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Requires_the_ITN_Check</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(TEXT(EEIShipper__c)=&apos;Requires the ITN&apos;,PreDepartureITNNumber__c=null)</errorConditionFormula>
+        <errorDisplayField>PreDepartureITNNumber__c</errorDisplayField>
+        <errorMessage>Please fill field</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Shipper_filed_check</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(TEXT(EEIFillingType__c)=&apos;Shipper filed&apos;,TEXT(EEIShipper__c)=null)</errorConditionFormula>
+        <errorDisplayField>EEIShipper__c</errorDisplayField>
+        <errorMessage>Please choose option</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>UPS_filed_check</fullName>
+        <active>false</active>
+        <errorConditionFormula>TEXT(EEIFillingType__c)=&apos;UPS filed&apos;</errorConditionFormula>
+        <errorDisplayField>EEIFillingType__c</errorDisplayField>
+        <errorMessage>&apos;UPS filled&apos; option is not supported.</errorMessage>
+    </validationRules>
+</CustomObject>

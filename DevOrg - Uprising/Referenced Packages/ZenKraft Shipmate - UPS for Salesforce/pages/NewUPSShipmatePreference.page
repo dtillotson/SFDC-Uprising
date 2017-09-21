@@ -1,0 +1,390 @@
+<apex:page tabStyle="zkups__UPSShipmatePreference__c" standardController="zkups__UPSShipmatePreference__c" extensions="zkups.ShipmatePreferenceController">
+ <apex:includeScript value="{!URLFOR($Resource.zkups__jQuery, '/jquery/jquery-1.4.2.js')}"	/>
+ <apex:stylesheet value="{!$Resource.zkups__WizardCSS}"/>
+ <style>
+	.lightboxWizard {       
+		display: none;
+		background: #FFFFFF;
+		opacity: 0.3;
+		filter: alpha(opacity=30);
+		position: fixed;
+		top: 0px;
+		left: 0px;
+		min-width: 100%;
+		min-height: 100%;
+		z-index: 1000;
+	}
+</style>
+
+<script>
+	$j = jQuery.noConflict();
+
+	function setInputRequiredFields() {
+		$j('.inputFieldRequired').before('<span class="inputFieldRequiredBar">&nbsp;</span>');
+	}
+
+	$j(document).ready(function() {
+		setInputRequiredFields();
+		// $j('.inputFieldRequiredRerender').before('<span class="inputFieldRequiredBar">&nbsp;</span>'); 
+	});
+
+	function printdiv(printdivname) {
+		var headstr = "<html><head><title>UTA agreement</title></head><body>";
+		var footstr = "</body>";
+		var newstr = document.getElementById(printdivname).innerHTML;
+		var oldstr = document.body.innerHTML;
+		document.body.innerHTML = headstr+newstr+footstr;
+		window.print();
+		setTimeout(function(){
+			window.close();
+		}, 10);
+		document.body.innerHTML = oldstr;
+		return false;
+	}
+
+
+	function IsLoading() {
+		$j('.lightboxWizard').show();
+	};
+
+	function IsLoadingComplete() {
+		$j('.lightboxWizard').hide();
+	};
+
+</script> 
+<apex:sectionHeader title="Shipmate Preference Edit" subtitle="New Shipmate Preference" help="http://support.zenkraft.com/kb/creating-a-ups-shipmate-preference/"/>
+	<apex:form id="formId">
+		<!-- <apex:actionFunction name="setRequiredInput" action="{! doNothing }"  rerender="{! formId }" oncomplete="setInputRequiredFields();"/> -->
+
+		<apex:pageBlock title="Shipmate Preference Edit" mode="edit">
+		
+		<!-- pageBlockButtons -->
+		<!-- Dont specify rerender field. rerender whole page -->
+		<apex:pageBlockButtons >
+			<apex:commandButton action="{!saveNewShipmatePreference}" value="Save" />
+			<apex:commandButton action="{!cancelNewShipmatePreference}" immediate="true" value="Cancel"/>
+		</apex:pageBlockButtons> 
+		
+				
+		<!-- Display the message list -->
+		<c:MessageListDisplay id="errorlist" msgList="{!MessageList}"/> 
+		
+		<apex:outputPanel id="printMessages" >
+			<apex:pageMessage title="Note from UPS:" summary="The creation of a Shipmate Preference will save your UPS Account Number using the Registration API included in the UPS Developer Kit"	severity="info" strength="1"/>
+		</apex:outputPanel>
+			
+			
+		
+		<!-- UPS Account Section -->
+		<apex:outputPanel id="upsAccountSection"> 
+		<apex:pageBlockSection collapsible="false" title="Account Information">
+		
+			<!--	UPS Account Number -->
+			<apex:pageBlockSectionItem rendered="{!NOT(EditUPSAccountNumberDisabled)}">
+			<apex:outputLabel value="UPS Account Number"/> 
+			<apex:inputField value="{!ShipmatePreference.zkups__UPSAccountNumber__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem>
+			<apex:pageBlockSectionItem rendered="{!EditUPSAccountNumberDisabled}">
+			<apex:outputLabel value="UPS Account Number"/> 
+			<apex:outputField value="{!ShipmatePreference.zkups__UPSAccountNumber__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value=""/> 
+			<apex:outputLink value="http://www.ups.com/content/global/index.jsx?WT.svl=Footer" id="theLink" target="_blank">Open a UPS Account</apex:outputLink>
+			</apex:pageBlockSectionItem><p/>
+			
+		</apex:pageBlockSection>
+		
+		
+		<apex:pageBlockSection collapsible="false" title="Company Information">
+		
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Company Name"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__CompanyName__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Company URL"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__CompanyURL__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+		
+		</apex:pageBlockSection>
+		
+		<apex:pageBlockSection collapsible="false" title="Primary Contact Information">
+		
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Full Name"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__PrimaryContactName__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Title"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__PrimaryContactTitle__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Email"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__PrimaryContactEmail__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Phone"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__PrimaryContactPhone__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+		
+		</apex:pageBlockSection>
+		
+		
+		<!-- Shipping Address -->
+		<apex:pageBlockSection collapsible="false" title="Shipping Address Information" id="shippingZipCodeSection">
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.StreetHelpText}">
+				<apex:outputLabel value="Street"/>
+				<apex:inputField style="width:350px"	value="{!ShipmatePreference.zkups__ShippingStreet__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="City"/>
+				<apex:inputField value="{!ShipmatePreference.zkups__ShippingCity__c}" styleClass="inputFieldRequired" />
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="State"/>
+				<apex:inputField required="false" value="{!ShipmatePreference.zkups__ShippingState__c}" styleClass="{! IF(IsShippingStateRequired, 'inputFieldRequired', '') }"/>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Zip/Postal Code"/>
+				<apex:inputField required="false" value="{!ShipmatePreference.zkups__ShippingPostalCode__c}" styleClass="{! IF(IsShippingPostalCodeRequired, 'inputFieldRequired', '') }"/>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Country"/>
+				<apex:selectList id="senderCountry"	value="{!ShippingCountry}" size="1" multiselect="false" styleClass="inputFieldRequired" >
+					<apex:actionSupport event="onchange" action="{! doNothing }" reRender="formId" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();setInputRequiredFields();" />
+					<apex:selectOptions value="{!SenderCountryOptions}"/>															 
+				</apex:selectList> 
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="This is a Residence"/>
+				<apex:inputField required="false" value="{!ShipmatePreference.zkups__ShippingIsResidential__c}" />
+			</apex:pageBlockSectionItem><p/>
+			
+		</apex:pageBlockSection>
+		
+		
+		<!-- Billing Address -->
+		<apex:pageBlockSection collapsible="false" title="Billing Address Information">
+		
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.StreetHelpText}">
+				<apex:outputLabel value="Street"/>
+				<apex:outputPanel >
+					<apex:inputField style="width:350px" value="{!ShipmatePreference.zkups__Street__c}" styleClass="inputFieldRequired"/>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="City"/>
+				<apex:outputPanel >
+					<apex:inputField value="{!ShipmatePreference.zkups__City__c}" styleClass="inputFieldRequired"/>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="State"/>
+				<apex:outputPanel >
+					<apex:inputField required="false" value="{!ShipmatePreference.zkups__State__c}" styleClass="{! IF(IsBillingStateRequired, 'inputFieldRequired', '') }"/>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Zip/Postal Code"/>
+				<apex:outputPanel >
+					<apex:inputField required="false" value="{!ShipmatePreference.zkups__PostalCode__c}" styleClass="{! IF(IsBillingPostalCodeRequired, 'inputFieldRequired', '') }"/>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem><p/>
+			
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Country"/>
+				<apex:outputPanel >
+					<apex:selectList value="{!BillingCountry}" size="1" multiselect="false" styleClass="inputFieldRequired">
+						<apex:selectOptions value="{!SenderCountryOptions}"/>
+					<!-- <apex:actionSupport event="onchange" action="{! billingCountryRefresh }" rerender="formId"/> -->
+					<apex:actionSupport event="onchange" action="{! billingCountryRefresh }" reRender="formId" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();setInputRequiredFields();" />
+					</apex:selectList>
+				</apex:outputPanel>
+			</apex:pageBlockSectionItem><p/>
+		
+		</apex:pageBlockSection>
+		
+	<!-- Default Sender Details Section -->
+		<apex:outputPanel id="defaultSenderDetailsSection">
+		<apex:pageBlockSection collapsible="false" title="Default Sender Details">
+		
+			<apex:pageBlockSectionItem helpText="{!$ObjectType.zkups__UPSShipmatePreference__c.Fields.zkups__SenderNameDefault__c.inlineHelpText}">
+			<apex:outputLabel value="Sender Name Default"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__SenderNameDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!$ObjectType.zkups__UPSShipmatePreference__c.Fields.zkups__SenderEMailDefault__c.inlineHelpText}">
+			<apex:outputLabel value="Sender Email Default"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__SenderEMailDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!$ObjectType.zkups__UPSShipmatePreference__c.Fields.zkups__SenderPhoneDefault__c.inlineHelpText}">
+			<apex:outputLabel value="Sender Phone Default"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__SenderPhoneDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+		
+		</apex:pageBlockSection>
+		</apex:outputPanel>
+
+		<!-- Default Sender Details Section -->
+		<apex:outputPanel id="defaultEmailLabelSection">
+		<apex:pageBlockSection collapsible="false" title="Email Label Defaults">
+		
+			<!-- default email display name -->
+			<apex:inputField value="{!ShipmatePreference.zkups__EmailLabelSenderDisplayNameDefault__c}"/><p/>
+			<!-- default email reply-to email -->
+			<apex:inputField value="{!ShipmatePreference.zkups__EmailLabelReplyToEmailDefault__c}"/><p/>
+			<!-- default email subject line -->
+			<apex:inputField value="{!ShipmatePreference.zkups__EmailLabelSubjectLineDefault__c}"/><p/>
+			<!-- default email text body -->
+			<apex:inputField style="width:350px" value="{!ShipmatePreference.zkups__EmailLabelTextBodyDefault__c}"/><p/>
+			
+		</apex:pageBlockSection>
+		</apex:outputPanel>
+
+		<!-- Convert Labels -->
+		<apex:outputPanel id="convertLabelSection">
+			<apex:pageBlockSection columns="1" collapsible="false" title="Convert Labels">
+				<apex:pageBlockSectionItem >
+					<apex:outputLabel value="Convert GIF to 6x4 PDF"/>
+					<apex:inputField value="{! ShipmatePreference.Convert_4x6_GIF_to_PDF__c }"/>
+				</apex:pageBlockSectionItem>
+			</apex:pageBlockSection>
+		</apex:outputPanel>
+		 
+		 <!-- Other Defaults Section -->
+		<apex:outputPanel id="otherDefaultsSection">
+		<apex:pageBlockSection collapsible="false" title="Other Defaults">
+		
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Label Image Type Default"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__LabelImageTypeDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value=""/>
+			<apex:commandLink target="_blank" immediate="true" value="Help Me Choose" action="http://www.zenkraft.com/support/ups/docs/thermal-help-me-choose"/>
+			</apex:pageBlockSectionItem><p/> 
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.EMailMessageHelpText}">
+			<apex:outputLabel value="Email Message Default"/>
+			<apex:inputField style="width:350px" value="{!ShipmatePreference.zkups__EMailMessageDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.SendEMailNotificationToShipperHelpText}">
+			<apex:outputLabel value="Send Email Notification to Shipper"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__SendEMailNotificationToShipper__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.SendEMailNotificationToRecipientHelpText}">
+			<apex:outputLabel value="Send Email Notification to Recipient"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__SendEMailNotificationToRecipient__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.SendEMailNotificationOnExceptionHelpText}">
+			<apex:outputLabel value="Send Email Notification on Exception"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__EMailNotifyOnExceptionDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.SendEMailNotificationOnDeliveryHelpText}">
+			<apex:outputLabel value="Send Email Notification on Delivery"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__EMailNotifyOnDeliveryDefault__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.DetailedViewShipmatePreferenceListHelpText}">
+			<apex:outputLabel value="Detailed View - Shipmate Preference List"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__DetailedViewShipmatePreferenceList__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem helpText="{!HelpLinks.DetailedViewReUsePackageListHelpText}">
+			<apex:outputLabel value="Detailed View - ReUse Package List"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__DetailedViewReUsePackageList__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Include Mail Innovations Packaging Types"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__IncludeMailInnovations__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem >
+			<apex:outputLabel value="Include Sure Post Service Types"/>
+			<apex:inputField value="{!ShipmatePreference.zkups__IncludeSurePost__c}"/>
+			</apex:pageBlockSectionItem><p/>
+			<!-- AutoWeigh Package -->
+			<apex:pageBlockSectionItem helpText="{! HelpLinks.AutoWeighPackageHelpText }">
+				<apex:outputLabel value="Auto Weigh Package"/>
+				<apex:inputField value="{! ShipmatePreference.AutoWeighPackage__c }"/>
+			</apex:pageBlockSectionItem><p/>
+			<apex:pageBlockSectionItem >
+				<apex:outputLabel value="Enable Scales"/>
+				<apex:inputField value="{! ShipmatePreference.EnableScales__c }"/>
+			</apex:pageBlockSectionItem><p/>
+			
+		</apex:pageBlockSection>
+		</apex:outputPanel>
+		 
+		<!-- UPS Negotiated Rates Invoice Section -->
+		<apex:outputPanel id="negotiatedRatesInvoiceSection" >
+				<apex:pageBlockSection id="pbsNR" collapsible="false" columns="1" title="Invoice Details for Negotiated Rates (optional)" rendered="{! ABRRatesSectionRendered }">							
+					<apex:pageBlockSectionItem >
+						<!-- <apex:outputLabel value="In order to enable your UPS® Account Based Rates (ABR) a further level of authentication is required. Please complete the information below from the latest UPS® Shipping Invoice available. ABR will be applied to your account within 24-48 hours of activation."/> -->
+						<apex:outputLabel value="Any of the last 3 invoices issued within the past 90 days for the US or Canada; and 45 days for any other countries."/>
+					</apex:pageBlockSectionItem><p/>
+					<apex:pageBlockSectionItem >
+						<apex:outputLabel value="I have a recent invoice"/>
+						<apex:outputPanel >
+							<apex:inputCheckbox id="abrCheckbox" value="{!InvoiceSectionRendered}">
+								<apex:actionSupport event="onchange" action="{!AbrRefresh}" rerender="formId" status="abrCheckboxStatus" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();setInputRequiredFields();"/>
+							</apex:inputCheckbox>
+							<apex:actionStatus id="abrCheckboxStatus">
+								<apex:facet name="start">
+									<apex:image value="{!$Resource.zkups__LoadingImage}"/>
+								</apex:facet>
+							</apex:actionStatus>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem> 
+					
+						<apex:pageBlockSectionItem rendered="{!InvoiceSectionRendered}" helpText="The Invoice Number from any of the last 3 invoices issued within the past 90 days for the US or Canada; and 45 days for any other country"> 
+							<apex:outputLabel value="Invoice Number" />
+							<apex:inputText value="{!PreferenceABRInvoiceNumber}" styleClass="inputFieldRequired"	/>
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!InvoiceSectionRendered}"	helpText="The Invoice Date"	>
+							<apex:outputLabel value="Invoice Date" />
+							<apex:inputField value="{!InputShipment.zkups__ExportDate__c}" styleClass="inputFieldRequired" />
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!InvoiceSectionRendered}"	helpText="The Invoice Amount e.g. 5403.32"	>
+							<apex:outputLabel value="Invoice Amount (USD)" />
+							<apex:inputText value="{!PreferenceABRInvoiceAmount}" styleClass="inputFieldRequired" />
+						</apex:pageBlockSectionItem>
+						<apex:pageBlockSectionItem rendered="{!InvoiceSectionRendered}"	helpText="Provide the control ID if issued on the invoice" >
+							<apex:outputLabel value="Control ID"	/>
+							<apex:inputText value="{!PreferenceABRControlId}"/>
+						</apex:pageBlockSectionItem>
+
+					</apex:pageBlockSection>
+					 
+			</apex:outputPanel>
+		<!-- UPS License Agreement Section -->
+		<apex:pageBlockSection collapsible="false" title="License Agreement"	columns="1" rendered="{!NOT(EditModeOnly)}">
+			<div id="UTAagreement" style="float:left; width:100%; height:150px; overflow:scroll; border:solid 1px#e7e3e3; background-color:#FFFFFF; ">
+				<!-- <apex:outputText value=""></apex:outputText> -->
+				{!AccessLicenseAgreement}
+			</div>
+			<br />
+			<apex:commandButton action="{! doNothing }" value="Print" onclick="printdiv('UTAagreement'); return false;" />
+			<!-- <button id="print" onclick="printdiv('UTAagreement')" >Print</button> -->
+			<apex:inputCheckbox id="acceptLicenseAgreement" value="{!ShipmatePreference.zkups__LicenseAgreementAccepted__c}" label="I accept the UPS terms and Conditions" style="float:left;"/>
+		</apex:pageBlockSection>
+		
+		</apex:outputPanel>
+		
+		</apex:pageblock>
+		<div style="margin:0px auto;text-align:center; font-size:8pt; color:gray;">
+			UPS, the UPS Shield trademark, the UPS Ready mark and the Color Brown are trademarks of United Parcel Service of America, Inc. All Rights Reserved.
+		</div>
+		<div class="lightboxWizard">
+		</div>
+	</apex:form>
+</apex:page>

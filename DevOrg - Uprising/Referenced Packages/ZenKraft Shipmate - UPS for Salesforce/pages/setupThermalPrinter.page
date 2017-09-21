@@ -1,0 +1,25 @@
+<apex:page tabStyle="zkups__UPSShipmatePreference__c" standardController="zkups__UPSShipmatePreference__c" extensions="zkups.ShipmatePreferenceController">
+    <apex:form >
+        <apex:commandLink action="{! backToPreviousPage }" value="Back to Previous Page"/>
+        <apex:pageBlock mode="edit">        
+        <!-- Permanent NOTE -->
+        <span >
+            <div class="message infoM4" role="alert">
+                <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+                    <tbody>
+                        <tr valign="top">
+                            <td>
+                                <img alt="info" class="msgIcon" src="/s.gif" title="info"/>
+                            </td>
+                            <td class="messageCell">
+                                <div  class="messageText">By popular demand a default printer is now set for each user, not for each preference. Each user can set their default printer the first time they print a shipping label. Please ensure each user who needs to print has the Zenkraft Print desktop software running on their computer (supports Mac, PC and Linux). For downloads and setup guides please visit <a target="_blank" style="margin: 0 0;" href="https://www.zenkraft.com/print/">www.zenkraft.com/print/</a>
+                                </div>
+                            </td>                               
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </span>
+        </apex:pageBlock>       
+    </apex:form>
+</apex:page>

@@ -1,0 +1,284 @@
+<apex:page tabStyle="zkups__BulkShipment__c" standardController="zkups__BulkShipment__c" extensions="zkups.BulkShipmentPrintLabelController" action="{! buildLabelDataList }">
+<c:Loading id="LoadingControl"/>
+
+	<style>
+	    .lightboxWizard {       
+	        display: none;
+	        background: #FFFFFF;
+	        opacity: 0.3;
+	        filter: alpha(opacity=30);
+	        position: fixed;
+	        top: 0px;
+	        left: 0px;
+	        min-width: 100%;
+	        min-height: 100%;
+	        z-index: 1000;
+	    }    
+    </style>
+
+	<!-- Script stuff for thermal labels -->
+	<apex:outputPanel id="loadLabelData" >
+		<!-- Include Thermal Label Printing Component -->
+		<!-- <c:PrintingV2 id="printingControl"/> -->
+
+		<!-- <c:PrintingV3 id="printingControl"/> -->
+		<c:PrintingV4 id="printingControl"/>
+
+		<!-- Define array to hold base64 label data -->
+		<script>
+			// deployQZ();
+
+			var prefPrinter = '{! SelectedPrinterName }';
+			var selectedPrinterName = prefPrinter;
+
+		  //   function jzebraReady(pr1, pr2){
+		  //   	qzVersion = 'Applet';
+		  //   	setTimeout(function(){
+				// 	j$('.wrAppletInstalledBlock').show();
+				// 	j$('.thermalPrinterSection').hide();
+    // 				// j$('.oldthermalPrinterSection').show();
+				// 	setLoadComplete();
+		  //   	}, 100);
+		  //   }
+
+		  //   function installAppletError(version, ignore){
+		  //   	j$('#wrAppletNotInstalled').show();
+				// j$('.thermalPrinterSection').hide();
+				// // j$('.oldthermalPrinterSection').show();
+		  //   	// alert("Java " + version + " NPAPI plugin not available");
+		  //   	setLoadComplete();
+		  //   }
+
+			j$(document).ready( function () {
+				setLoadStart();
+
+				startConnection({ retries: 1, delay: 1 }, findAllPrintersCustom, errorHandler);
+			});
+
+			function changePrintNameApplet(pr1, pr2){
+				changePrintName(pr1);
+			}
+
+			function changePrintName(el){
+				setLoadStart();
+
+				var option = j$(el).find('option:selected').val();
+				selectedPrinterName = option;
+				j$("input[name$='hPrintName']").val(option);
+				j$("input[name$='PrinterName']").val(option);
+
+				setLoadComplete();
+			}
+
+			function processAllPrinters(printers){
+				setLoadStart();
+
+				if (printers.length) {
+						var list = j$(".printers");
+
+						var ells = document.getElementsByClassName('printers');
+						var ell = ells[0];
+
+						j$(ell).empty();
+
+						var optionNone = document.createElement("option");
+						optionNone.text = '--None--';
+						ell.add(optionNone);
+
+						for (var i = 0; i < printers.length; i++) {
+							var onePrinter = printers[i];	
+							var option = document.createElement("option");
+
+							if (onePrinter == prefPrinter){
+								option.selected = 'true';
+							}
+
+							option.text = onePrinter;
+							option.value = onePrinter;
+
+							ell.add(option);
+						}
+
+						var option = j$(ell).find('option:selected').val();
+						j$("input[name$='hPrintName']").val(option);
+						j$("input[name$='PrinterName']").val(option);
+				} else {
+					alert('Printers not found');
+				}	
+
+				setLoadComplete();
+			}
+			var arrLabelData = [];
+
+		</script>
+
+		<!-- Push from Apex to JavaScript -->
+		<script>
+			<apex:repeat value="{!LabelData}" var="ld">
+				arrLabelData.push("{!ld}");
+			</apex:repeat>
+		</script>
+
+	 	<!-- Print All function -->
+		<script>
+
+			function setLoadStart(){
+				j$('.lightboxWizard').show();
+				j$('.loadingImg').show();
+			}
+
+			function setLoadComplete(){
+				j$('.lightboxWizard').hide();
+				j$('.loadingImg').hide();
+			}
+
+			function startSuccess(){
+				setLoadComplete();
+			}
+
+			function errorHandler(err){
+				console.error(err);
+				alert(err);
+				setLoadComplete();
+			}
+
+			function successPrint(){
+				j$('#successPrintMsg').show();
+			}
+
+			function findAllPrintersCustom() {
+				if ( qzVersion == 'Applet' ){
+				} else {
+					setLoadStart();
+					findPrinters(processAllPrinters, errorHandler);			
+				}
+			}
+
+			function printOne(labelData){
+				if (qzVersion != 0)
+					printBase64(selectedPrinterName, labelData, successPrint);
+			}
+
+			function printAll() {
+				if (qzVersion != 0)
+					printAllFromArray(selectedPrinterName,arrLabelData, successPrint);
+			}
+		</script>
+	</apex:outputPanel>
+
+
+	<!-- Actual Page -->
+	<apex:form >
+		<apex:sectionHeader title="Bulk Shipment" subtitle="Printing" help="http://www.zenkraft.com/support/ups/docs/managing-shipments"/>
+
+		<c:MessageListDisplay id="MessageList" msgList="{!MessageList}"/>
+
+		<apex:commandLink action="{!backToPreviousPage}" value="Back to Previous Page"/>
+
+		<apex:pageBlock mode="detail">
+			<apex:inputHidden value="{! selectedPrinterName }" id="hPrintName"/>
+			
+			<apex:outputPanel style="display: none;" styleClass="wrAppletInstalledBlock">
+				<span >
+				    <div class="message warningM4" role="alert">
+				        <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+				            <tbody><tr valign="top">
+				                <td>
+				                    <img alt="WARNING" class="msgIcon" src="/s.gif" title="WARNING"/>
+				                </td>
+				                <td class="messageCell"><div  class="messageText"><span>
+				                   	<h4>Warning:</h4></span>The printing Java applet is no longer being supported. Please click <a target="_blank" style="margin: 0 0;" href="http://www.zenkraft.com/print/">here</a> for upgrade documents<br/></div>
+				                </td>
+				            </tr>
+				        </tbody></table>
+				    </div>
+				</span>
+			</apex:outputPanel>
+
+			<span id="wrAppletNotInstalled" style="display: none;">
+			    <div class="message warningM4" role="alert">
+			        <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+			            <tbody><tr valign="top">
+			                <td>
+			                    <img alt="WARNING" class="msgIcon" src="/s.gif" title="WARNING"/>
+			                </td>
+			                <td class="messageCell"><div  class="messageText"><span>
+			                   	<h4>Warning:</h4></span>Please goto <a target="_blank" style="margin: 0 0;" href="http://www.zenkraft.com/print/">www.zenkraft.com/print/</a> to install the printing software.<br/></div>
+			                </td>
+			            </tr>
+			        </tbody></table>
+			    </div>
+			</span>
+
+			<span id="successPrintMsg" style="display: none"><span>
+			    <div class="message confirmM4" role="alert">
+			        <table border="0" cellpadding="0" cellspacing="0" class="messageTable" style="padding:0px;margin:0px;">
+			            <tbody><tr valign="top">
+			                <td>
+			                    <img alt="CONFIRM" class="msgIcon" src="/s.gif" title="CONFIRM"/>
+			                </td>
+			                <td class="messageCell"><div class="messageText"><span>
+								<h4>Success:</h4></span>Sent to printer.<br/></div>
+			                </td>
+			            </tr>
+			        </tbody></table>
+			</div></span></span>
+			
+
+			<!-- Thermal printer section -->
+			<apex:outputPanel id="thermalPrinterSection" styleClass="thermalPrinterSection">
+				<apex:pageBlockSection collapsible="false" columns="1" title="Printer">
+					<apex:pageBlockSectionItem >
+						<apex:outputPanel layout="block" style="margin-top: 5px;margin-right: -9px;">
+						Printers:
+						</apex:outputPanel>
+						<apex:outputPanel >
+							<select class="printers" size="1" onchange="changePrintName(this);">
+								<option value="">--None--</option>
+							</select>
+							<apex:commandButton value="Set as default printer" action="{! doSaveAsDefault }"/>
+							<apex:image id="loadingImg" styleClass="loadingImg" value="{!$Resource.zkups__LoadingImage}"/>
+						</apex:outputPanel>
+					</apex:pageBlockSectionItem>
+					<apex:pageBlockSectionItem >
+					</apex:pageBlockSectionItem>
+				</apex:pageBlockSection>
+			</apex:outputPanel>
+
+
+			<!-- Labels section -->
+			<apex:outputPanel id="labelTable" >
+			<apex:pageBlockSection collapsible="false" title="Labels">
+
+				<apex:pageBlockTable value="{!LabelEntries}" var="labelEntry" cellpadding="10">
+					<apex:column >
+						<apex:facet name="header">File Name</apex:facet>
+						<apex:outputText value="{!labelEntry.Name}"/>
+					</apex:column>
+					<apex:column >
+						<apex:facet name="header"></apex:facet>
+						<apex:commandButton value="Print" rerender="printMessages" onclick="printOne('{!labelEntry.LabelBase64Data}');"/>
+					</apex:column>
+				</apex:pageBlockTable>
+
+			</apex:pageBlockSection>
+			</apex:outputPanel>
+
+			<!-- Print Page Block Buttons -->
+			<apex:pageBlockButtons >
+				<apex:outputPanel id="printPageBlockButtons">
+					<apex:commandButton value="Print All" oncomplete="printAll();" disabled="{! NOT(printEnabled) }"/>
+				</apex:outputPanel>
+			</apex:pageBlockButtons>
+
+		</apex:pageBlock>
+    <div class="lightboxWizard">
+    </div>
+	</apex:form>
+			
+			
+
+ 
+
+	
+</apex:page>

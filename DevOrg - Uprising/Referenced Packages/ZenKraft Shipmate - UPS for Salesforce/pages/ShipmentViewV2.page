@@ -1,0 +1,33 @@
+<apex:page standardController="zkups__UPSShipment__c" extensions="zkups.ShipmentViewV2Controller">
+	<apex:includeScript value="/support/console/35.0/integration.js"/>
+	<apex:form >
+		<apex:commandLink action="{! cancel }" value="Back to Previous Page" rendered="{! isPreviousPage }"/>
+		<c:MessageListDisplay id="MessageList" msgList="{! messageList }"/>
+		<apex:detail relatedList="true" subject="{! recordId }" title="true" relatedListHover="true" inlineEdit="false" showChatter="true"/>
+	</apex:form>
+	<script type="text/javascript">
+		var showTabId = function showTabId(result) 
+		{
+			var tabId = result.id;
+			sforce.console.refreshPrimaryTabById(tabId , true, refreshSuccess);
+		};
+		var refreshSuccess = function refreshSuccess(result) {
+			console.log('refreshSuccess', result);
+		};
+
+		var showSubTabId = function showSubTabId(result) {
+			var subTabId = result.id;
+			console.log('SubTabId:', result);
+			// sforce.console.refreshSubtabById(subTabId, true, refreshSuccess);
+			// sforce.console.closeTab(subTabId, refreshSuccess);
+		};
+
+		Sfdc.onReady(function() {
+			if (sforce.console.isInConsole()) {
+				sforce.console.getFocusedPrimaryTabId(showTabId);
+				// window.location.href = '/';
+				sforce.console.getFocusedSubtabId(showSubTabId);				
+			}
+        });
+  </script>
+</apex:page>

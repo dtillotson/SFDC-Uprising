@@ -1,0 +1,57 @@
+<apex:page showHeader="true" sidebar="true" standardController="zkups__UPSShipmatePreference__c" extensions="zkups.SetupPrinterController" docType="html-5.0" action="{!init}" tabStyle="zkups__UPSShipmatePreference__c">
+
+    <apex:stylesheet value="{!$Resource.zkups__WizardCSS}"/>
+
+    <apex:sectionHeader title="Shipmate Preference Edit" subtitle="Printer Setup" help="http://www.zenkraft.com/support/ups/docs/printer-setup"/>
+    <apex:form id="mainForm" styleClass="printerSetup">
+
+        
+
+        <apex:pageBlock rendered="{! NOT(isRegistered) }">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+            <apex:pageMessages id="messages" />
+        </apex:pageBlock>
+
+        <apex:pageBlock id="shippingPreferencePageBlock" mode="{!IF(isRegistered, 'detail', 'edit')}" rendered="{! isRegistered }" title="Shipmate Preference Edit">
+            <apex:pageMessages id="messages" />
+            <apex:pageBlockSection title="Username and Password" columns="3" collapsible="false" rendered="{!NOT(isRegistered)}">
+                <apex:pageBlockSectionItem dataStyleClass="inputField" labelStyleClass="inputLabel">
+                    <apex:outputLabel for="username" value="Username">
+                        <span class="inputFieldRequiredBarFloatRight">&nbsp;</span>
+                    </apex:outputLabel>
+                    <apex:input id="username" value="{!username}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem dataStyleClass="inputField" labelStyleClass="inputLabel">
+                    <apex:outputLabel for="password" value="Password">
+                        <span class="inputFieldRequiredBarFloatRight">&nbsp;</span>
+                    </apex:outputLabel>
+                    <apex:inputSecret id="password" value="{!password}" />
+                </apex:pageBlockSectionItem>
+                <apex:pageBlockSectionItem >
+                    <apex:commandButton value="Create Print Node Account" action="{!createPrintNodeAccount}" styleClass="createAccountBtn" reRender="mainForm"/>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Set Default Printer" columns="1" collapsible="false" rendered="{!isRegistered}">
+                <apex:pageBlockSectionItem labelStyleClass="inputLabel">
+                    <apex:outputLabel for="defaultPrinter" value="Default Printer"/>
+                    <apex:selectList value="{!defaultPrinter}" size="1">
+                        <apex:selectOption itemLabel="None" itemValue=""/>
+                        <apex:selectOptions value="{!availablePrinters}"/>
+                    </apex:selectList>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Downloads" columns="1" collapsible="false">
+                <apex:pageBlockSectionItem >
+                    Please download the desktop client from <a href="http://www.zenkraft.com/client" target="_blank">www.zenkraft.com/client</a>
+                    <div>&nbsp;</div>
+                </apex:pageBlockSectionItem>
+            </apex:pageBlockSection>
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton value="Save" action="{!save}"/>
+                <apex:commandButton value="Cancel" action="{!cancel}"/>
+            </apex:pageBlockButtons>
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

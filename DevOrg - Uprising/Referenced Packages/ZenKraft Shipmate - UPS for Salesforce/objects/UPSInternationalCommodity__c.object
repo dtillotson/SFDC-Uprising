@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <customHelpPage>internationalShipmentHelp</customHelpPage>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
+    <description>UPS International Commodity stores data used for defining a commodity for international shipments</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CommodityCode__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Tariff codes are defined by customs authorities and used to classify products. Customs uses tariff codes to determine what duties will be payable on products. It is therefore important that the correct code is identified. Using the right code means that you will not be liable for excess customs duties or assessments. The standard harmonized tariff code is a six-digit code, though some contain more digits. The tariff code is unique for the product and its destination.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Tariff codes are defined by customs authorities and used to classify products. Customs uses tariff codes to determine what duties will be payable on products. The standard harmonized tariff code is a six-digit code, though some contain more digits.</inlineHelpText>
+        <label>Tariff Code</label>
+        <length>15</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CountryOfManufacture__c</fullName>
+        <deprecated>false</deprecated>
+        <description>2 digit country code</description>
+        <externalId>false</externalId>
+        <inlineHelpText>2 digit country code</inlineHelpText>
+        <label>Country Of Manufacture</label>
+        <length>2</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Deactivated__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Deactivated</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>35</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ExportType__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Export Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Domestic</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Foreign</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Foreign Military</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>JointProduction__c</fullName>
+        <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
+        <description>If true, &quot;JNT&quot; will be used as the country of origin code on the NAFTA form.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If true, &quot;JNT&quot; will be used as the country of origin code on the NAFTA form.</inlineHelpText>
+        <label>Joint Production</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>NumberOfPieces__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Number Of Packages Per Commodity</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PartNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Part Number</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PreferenceCriteria__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Preference Criteria</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>A</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>B</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>C</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>D</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>E</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>F</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ProducerInfo__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Producer Info</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>The shipper is the producer of the good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Knowledge of whether the good qualifies as an originating good</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Reliance on the producers written representation</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>A signed Certificate provided to the exporter by the producer</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ScheduleBNumber__c</fullName>
+        <deprecated>false</deprecated>
+        <description>10 characters long and specific to North America. This is required for the SED form. The first 6 characters will be the harmonized code.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>10 characters long and specific to North America. This is required for the SED form. The first 6 characters will be the harmonized code.</inlineHelpText>
+        <label>Schedule B Number</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ScheduleBUnitOfMeasurementCode__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Schedule B Unit Of Measurement</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Barrels</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Carat</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Content Kilogram</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Square Centimeters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Content Ton</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Curie</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Clean Yield Kilogram</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dozen</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dozen Pieces</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dozen Pairs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Fiber Meter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gross Containers</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gram</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Gross</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Hundred</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kilogram</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Thousand Cubic Meters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kilogram Total Sugars</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Liter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Meter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Square Meters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cubic Meters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Millicurie</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Number</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pieces</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Proof Liter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pack</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pairs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Running Bales</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Square</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Ton</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Thousands</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>No Quantity required</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>UnitOfMeasurementOther__c</fullName>
+        <deprecated>false</deprecated>
+        <description>If an appropriate unit of measurement is not offered in the Unit of Measurement drop-down menu, Select &quot;Other&quot; for you Unit of Measurement and specify the suitable measurement in this field.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If an appropriate unit of measurement is not offered in the Unit of Measurement drop-down menu, Select &quot;Other&quot; for you Unit of Measurement and specify the suitable measurement in this field.</inlineHelpText>
+        <label>Other Unit Of Measurement</label>
+        <length>3</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>UnitOfMeasurement__c</fullName>
+        <deprecated>false</deprecated>
+        <externalId>false</externalId>
+        <label>Unit Of Measurement</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Barrel</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bundle</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bag</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bunch</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Box</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Bolt</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Butt</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Canister</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Centimeter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Container</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Crate</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Case</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Carton</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Cylinder</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Dozen</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Each</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Envelope</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Feet</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kilogram</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Kilograms</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pound</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pounds</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Liter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Meter</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Number</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Packet</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pallet</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Piece</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pieces</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Proof Liters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Package</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pair</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Pairs</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Roll</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Set</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Square Meters</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Square Yards</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Tube</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Yard</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>UnitValue__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The Unit Value of the Commodity.
+
+For Commercial Invoices, please specify the Unit of Measurement
+
+For SED Forms, please specify the Schedule B Unit of Measurement</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The Unit Value of the Commodity.
+
+For Commercial Invoices, please specify the Unit of Measurement
+
+For SED Forms, please specify the Schedule B Unit of Measurement</inlineHelpText>
+        <label>Price Per Unit</label>
+        <precision>11</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>VehicleId__c</fullName>
+        <deprecated>false</deprecated>
+        <description>The unique Vehicle Identification Number (VIN) in the proper format. Or The Product Identification Number (PIN) for those used self propelled vehicles for which there are no VINs. Or no Vehicle Title Number.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The unique Vehicle Identification Number (VIN) in the proper format. Or The Product Identification Number (PIN) for those used self propelled vehicles for which there are no VINs. Or no Vehicle Title Number.</inlineHelpText>
+        <label>Vehicle ID</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>WeightUnits__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Applies to Certificate of Origin and SED forms only.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Applies to Certificate of Origin and SED forms only.</inlineHelpText>
+        <label>Weight Units</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>KGS</fullName>
+                    <default>false</default>
+                </value>
+                <value>
+                    <fullName>LBS</fullName>
+                    <default>true</default>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Weight__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Applies to Certificate of Origin and SED forms only.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Applies to Certificate of Origin and SED forms only.</inlineHelpText>
+        <label>Weight</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>1</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>UPS International Commodity</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>CountryOfManufacture__c</columns>
+        <columns>Description__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>UPS International Commodity Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>UPS International Commodities</pluralLabel>
+    <searchLayouts>
+        <excludedStandardButtons>Accept</excludedStandardButtons>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <webLinks>
+        <fullName>Deactivate</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Deactivate/Activate</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/38.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/38.0/apex.js&quot;)} 
+
+var deactivateStatus = &apos;{!UPSInternationalCommodity__c.Deactivated__c}&apos;;
+var currentObject = new sforce.SObject(&quot;zkups__UPSInternationalCommodity__c&quot;); 
+currentObject.Id = &apos;{!UPSInternationalCommodity__c.Id}&apos;; 
+if (deactivateStatus == &apos;1&apos;) {
+  currentObject.zkups__Deactivated__c = &apos;false&apos;; 
+} else {
+  currentObject.zkups__Deactivated__c = &apos;true&apos;; 
+}
+var result = sforce.connection.update([currentObject]); 
+if (result[0].success==&apos;false&apos;) {
+  alert(result[0].errors.message);
+} else {
+  location.reload(true);
+}</url>
+    </webLinks>
+</CustomObject>

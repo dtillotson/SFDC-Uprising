@@ -1,0 +1,552 @@
+<apex:page controller="zkups.ManagePrinterController"  tabStyle="zkups__UPSShipmatePreference__c" action="{! init }">
+<apex:includeScript value="{!URLFOR($Resource.zkups__jQuery, '/jquery/jquery-1.4.2.js')}"  />
+<style>
+    .lightboxWizard {       
+        display: none;
+        background: #FFFFFF;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        min-width: 100%;
+        min-height: 100%;
+        z-index: 1000;
+    } 
+
+    .tabsBlock {
+        background: white !important;
+    }
+    .activeTab {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        color:black;
+        background-image:none;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+        color: #696b77;
+        border-left: 1px solid #ccc !important;
+        border-top: 1px solid #ccc !important;
+        border-right: 1px solid #ccc !important;
+        padding: 10px !important;
+        background: white;
+        font-weight: bold;
+        text-shadow: 0 1px 0 white;
+        -webkit-box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.2);
+        -moz-box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.2);
+        box-shadow: 0px 1px 2px 0px rgba(50, 50, 50, 0.2);
+    }
+   
+    .inactiveTab {
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        color:black;
+        background-image:none;
+        font-weight: bold;
+        padding: 5px;
+        cursor: pointer;
+        color: #696b77;
+        border: 1px solid #cacdd6;
+        padding: 10px !important;
+        background: #ededed; /* Old browsers */
+        font-weight: bold;
+        text-shadow: 0 1px 0 white;
+    }
+</style>
+<apex:form id="formId">
+    <script>
+
+        $j = jQuery.noConflict();
+
+        function IsLoading() {
+            $j('.lightboxWizard').show();
+        };
+
+        function IsLoadingComplete() {
+            $j('.lightboxWizard').hide();
+        };
+
+    </script>
+    <c:MessageListDisplay id="MessageList" msgList="{! messageList }"/> 
+    <apex:pageBlock id="passBlock" title="Zenkraft Print Desktop Login">
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{! doCancel }" value="Back to Previous Page" rendered="{! isPreviousPage }" />
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection columns="2">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel value="Username" />
+                <apex:outputText value="{! activeAccount.userName }" />             
+            </apex:pageBlockSectionItem>
+            <apex:pageBlockSectionItem rendered="{! isPassEditable }">
+                <apex:outputLabel value="Password" />
+                <apex:inputText value="{! activeAccount.password }" />
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem rendered="{! NOT(isPassEditable) }">
+                <apex:outputLabel value="Password" />
+                <apex:outputLabel value="{! activeAccount.password }" for="changeModeBtnId"/>
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem >
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem rendered="{! isPassEditable }">
+                <apex:outputLabel value="" />
+                <apex:commandButton id="savePassBtnId" action="{! doSaveNewPassword }" value="Save password" onclick="IsLoading();" oncomplete="IsLoadingComplete();" reRender="passBlock"/> 
+            </apex:pageBlockSectionItem>
+
+            <apex:pageBlockSectionItem rendered="{! NOT(isPassEditable) }">
+                <apex:outputLabel value="" />
+                <apex:commandButton id="changeModeBtnId" action="{! doChangeMode }" value="Change password" onclick="IsLoading();" oncomplete="IsLoadingComplete();" reRender="passBlock"/>
+            </apex:pageBlockSectionItem>
+
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+
+    <apex:tabPanel switchType="client" id="theTabPanel" selectedTab="{! selectedTab }">
+        <!-- Thermal Tab -->
+        <apex:tab label="Thermal Shipping Labels (ZPL, EPL)" name="first" id="tabOne">
+            <apex:pageBlock >
+                <apex:pageBlockSection columns="1" title="Global Default Printer" id="pageBlockThermalGlobal">
+                    <c:MessageListDisplay id="globalPrinterMessageList" msgList="{! globalPrinterMessageList }"/>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Printer" />
+                        <apex:selectList value="{! setting.thermalPrinterId }" size="1">
+                            <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                            <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockThermalGlobal" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Thermal" />
+                                <apex:param name="manage_option" value="Global" />
+                            </apex:actionSupport>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Tray" />
+                        <apex:selectList value="{! setting.thermalPrinterTray }" size="1" >
+                            <apex:selectOptions value="{! optionThermalPrinterTrayList }"/>                         
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="" />
+                        <apex:commandButton action="{! doSaveGlobalPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                            <apex:param name="prn_type" value="Thermal" />
+                        </apex:commandButton>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="Preference Default Printers(overrides global default)" id="pageBlockThermalPref">
+                    <c:MessageListDisplay id="prefPrinterMessageList" msgList="{! prefPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! prefPrinterWrapperList }" var="obj" >
+                        <apex:column >
+                            <apex:facet name="header">Preference</apex:facet>
+                            <apex:outputText value="{! obj.pref.Name }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.pref.ThermalPrinterId__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockThermalPref" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="Thermal" />
+                                    <apex:param name="manage_option" value="Preference" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                                </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.pref.ThermalPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.thermalPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSavePrefPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Thermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="User Default Printers (overrides preference default)" id="pageBlockThermalUser">
+                    <c:MessageListDisplay id="userPrinterMessageList" msgList="{! userPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! thermalUserPrinterWrapperList }" var="obj" >
+                        <apex:column >
+                            <apex:facet name="header">User</apex:facet>
+                            <apex:inputField value="{! obj.usrPrinter.User__c }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.Printer__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockThermalUser" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="Thermal" />
+                                    <apex:param name="manage_option" value="User" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.ThermalPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.thermalPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSaveUserPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Thermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                            <apex:commandButton action="{! doRemoveUserPrinter }" value="Delete" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Thermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                    <apex:commandButton action="{! doAddNewUserRow }" value="Add New" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                        <apex:param name="prn_type" value="Thermal" />
+                    </apex:commandButton>
+                </apex:pageBlockSection>                
+            </apex:pageBlock>
+        </apex:tab>
+        <!-- NonThermal Tab -->
+        <apex:tab label="Non-thermal Shipping Labels" name="second" id="tabTwo">
+            <apex:pageBlock >
+                <apex:pageBlockSection columns="1" title="Global Default Printer" id="pageBlockNonThermalGlobal">
+                    <c:MessageListDisplay id="globalPrinterMessageList" msgList="{! globalPrinterMessageList }"/>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Printer" />
+                        <apex:selectList value="{! setting.nonThermalPrinterId }" size="1">
+                            <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                            <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockNonThermalGlobal" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="NonThermal" />
+                                <apex:param name="manage_option" value="Global" />
+                            </apex:actionSupport>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Tray" />
+                        <apex:selectList value="{! setting.nonThermalPrinterTray }" size="1" >
+                            <apex:selectOptions value="{! optionNonThermalPrinterTrayList }"/>                          
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="" />
+                        <apex:commandButton action="{! doSaveGlobalPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                            <apex:param name="prn_type" value="NonThermal" />
+                        </apex:commandButton>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="Preference Default Printers(overrides global default)" id="pageBlockNonThermalPref">
+                    <c:MessageListDisplay id="prefPrinterMessageList" msgList="{! prefPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! prefPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">Preference</apex:facet>
+                            <apex:outputText value="{! obj.pref.Name }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.pref.NonThermalPrinterId__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockNonThermalPref" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="NonThermal" />
+                                    <apex:param name="manage_option" value="Preference" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                                </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.pref.NonThermalPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.nonThermalPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSavePrefPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="NonThermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="User Default Printers (overrides preference default)" id="pageBlockNonThermalUser">
+                    <c:MessageListDisplay id="userPrinterMessageList" msgList="{! userPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! nonThermalUserPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">User</apex:facet>
+                            <apex:inputField value="{! obj.usrPrinter.User__c }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.Printer__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockNonThermalUser" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="NonThermal" />
+                                    <apex:param name="manage_option" value="User" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.NonThermalPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.nonThermalPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSaveUserPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="NonThermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                            <apex:commandButton action="{! doRemoveUserPrinter }" value="Delete" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="NonThermal" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                    <apex:commandButton action="{! doAddNewUserRow }" value="Add New" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                        <apex:param name="prn_type" value="NonThermal" />
+                    </apex:commandButton>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:tab>
+        <!-- Doc Tab -->
+        <apex:tab label="Shipping Documents" name="third" id="tabThree">
+            <apex:pageBlock >
+                <apex:pageBlockSection columns="1" title="Global Default Printer" id="pageBlockDocGlobal">
+                    <c:MessageListDisplay id="globalPrinterMessageList" msgList="{! globalPrinterMessageList }"/>
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Printer" />
+                        <apex:selectList value="{! setting.docPrinterId }" size="1">
+                            <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                            <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockDocGlobal" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Document" />
+                                <apex:param name="manage_option" value="Global" />
+                            </apex:actionSupport>
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Tray" />
+                        <apex:selectList value="{! setting.docPrinterTray }" size="1" >
+                            <apex:selectOptions value="{! optionDocumentPrinterTrayList }"/>                            
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="" />
+                        <apex:commandButton action="{! doSaveGlobalPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                            <apex:param name="prn_type" value="Document" />
+                        </apex:commandButton>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="Preference Default Printers(overrides global default)" id="pageBlockDocPref">
+                    <c:MessageListDisplay id="prefPrinterMessageList" msgList="{! prefPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! prefPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">Preference</apex:facet>
+                            <apex:outputText value="{! obj.pref.Name }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.pref.DocPrinterId__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockDocPref" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="Document" />
+                                    <apex:param name="manage_option" value="Preference" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                                </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.pref.DocPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.docPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSavePrefPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Document" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                <apex:pageBlockSection columns="1" title="User Default Printers (overrides preference default)" id="pageBlockDocUser">
+                    <c:MessageListDisplay id="userPrinterMessageList" msgList="{! userPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! docUserPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">User</apex:facet>
+                            <apex:inputField value="{! obj.usrPrinter.User__c }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Printer</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.Printer__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalPrinterList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrinterAction }" rerender="pageBlockDocUser" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="prn_type" value="Document" />
+                                    <apex:param name="manage_option" value="User" />
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Tray</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.DocPrinterTray__c }" size="1">
+                                <apex:selectOptions value="{! obj.docPrinterTrayList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSaveUserPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Document" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                            <apex:commandButton action="{! doRemoveUserPrinter }" value="Delete" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Document" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                    <apex:commandButton action="{! doAddNewUserRow }" value="Add New" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                        <apex:param name="prn_type" value="Document" />
+                    </apex:commandButton>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:tab>
+        <!-- Scales Tab -->
+        <apex:tab label="Scales" name="fourth" id="fourthThree">
+            <apex:pageBlock >
+                <apex:pageBlockSection id="pageBlockGlobalScales" columns="1" title="Global Default Scales">
+                    <c:MessageListDisplay id="globalPrinterMessageList" msgList="{! globalPrinterMessageList }"/>
+                    <apex:pageBlockSectionItem >    
+                        <apex:outputLabel value="Computer" />
+                        <apex:selectList value="{! setting.scalesComputerId  }" size="1">
+                            <apex:selectOptions value="{! optionAllGlobalComputerList }"/>
+                            <apex:actionSupport event="onchange" action="{! doSelectGlobalScaleComputer }" rerender="pageBlockGlobalScales" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();"/>
+                        </apex:selectList>                      
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Scale" />
+                        <apex:selectList value="{! setting.scalesFullName }" size="1" disabled="{! NOT(isScalesComputerSelected) }">
+                            <apex:selectOptions value="{! optionAllGlobalScalesList }"/>                            
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="Weight Unit" />
+                        <apex:selectList value="{! setting.scaleWeightUnit }" size="1" >
+                            <apex:selectOptions value="{! weightUnitOption }"/>                         
+                        </apex:selectList>
+                    </apex:pageBlockSectionItem>
+
+                    <apex:pageBlockSectionItem >
+                        <apex:outputLabel value="" />
+                        <apex:commandButton action="{! doSaveGlobalPrinter }" value="Save" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                            <apex:param name="prn_type" value="Scales" />
+                        </apex:commandButton>
+                    </apex:pageBlockSectionItem>
+
+                </apex:pageBlockSection>
+
+                <apex:pageBlockSection id="pageBlockPrefScales" columns="1" title="Preference Default Scales (overrides global default)">
+                    <c:MessageListDisplay id="prefPrinterMessageList" msgList="{! prefPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! prefPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">Preference</apex:facet>
+                            <apex:outputText value="{! obj.pref.Name }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Computer</apex:facet>
+                            <apex:selectList value="{! obj.pref.ScalesComputerId__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalComputerList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectPrefComputer }" rerender="pageBlockPrefScales" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Scale</apex:facet>
+                            <apex:selectList value="{! obj.selectedScaleFullName }" size="1">
+                                <apex:selectOptions value="{! obj.prefScalesList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Weight Unit</apex:facet>
+                            <apex:selectList value="{! obj.pref.ScaleWeightUnit__c }" size="1">
+                                <apex:selectOptions value="{! weightUnitOption }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSavePrefPrinter }" value="Save" reRender="pageBlockPrefScales" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Scales" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                </apex:pageBlockSection>
+                
+                <apex:pageBlockSection id="pageBlockUserScales" columns="1" title="User Default Scales (overrides preference default)">
+                    <c:MessageListDisplay id="userPrinterMessageList" msgList="{! userPrinterMessageList }"/>
+                    <apex:pageBlockTable value="{! scalesUserPrinterWrapperList }" var="obj">
+                        <apex:column >
+                            <apex:facet name="header">User</apex:facet>
+                            <apex:inputField value="{! obj.usrPrinter.User__c }" />
+                        </apex:column>
+                        <apex:column >
+                            <apex:facet name="header">Computer</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.ScalesComputerId__c }" size="1">
+                                <apex:selectOptions value="{! optionAllGlobalComputerList }"/>
+                                <apex:actionSupport event="onchange" action="{! doSelectUserComputer }" rerender="pageBlockUserScales" onsubmit="IsLoading();" oncomplete="IsLoadingComplete();">
+                                    <apex:param name="index" value="{! obj.index }" />
+                                </apex:actionSupport>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Scale</apex:facet>
+                            <apex:selectList value="{! obj.selectedScaleFullName }" size="1">
+                                <apex:selectOptions value="{! obj.userScalesList }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header">Weight Unit</apex:facet>
+                            <apex:selectList value="{! obj.usrPrinter.ScaleWeightUnit__c }" size="1">
+                                <apex:selectOptions value="{! weightUnitOption }"/>
+                            </apex:selectList>
+                        </apex:column> 
+                        <apex:column >
+                            <apex:facet name="header"></apex:facet>
+                            <apex:commandButton action="{! doSaveUserPrinter }" value="Save" reRender="pageBlockUserScales" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Scales" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                            <apex:commandButton action="{! doRemoveUserPrinter }" value="Delete" reRender="pageBlockUserScales" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                                <apex:param name="prn_type" value="Scales" />
+                                <apex:param name="index" value="{! obj.index }" />
+                            </apex:commandButton>
+                        </apex:column> 
+                    </apex:pageBlockTable>
+                    <apex:commandButton action="{! doAddNewUserRow }" value="Add New" reRender="formId" onclick="IsLoading();" oncomplete="IsLoadingComplete();">
+                        <apex:param name="prn_type" value="Scales" />
+                    </apex:commandButton>
+                </apex:pageBlockSection>
+            </apex:pageBlock>
+        </apex:tab>
+    </apex:tabPanel>
+    <div class="lightboxWizard">
+    </div>
+</apex:form>
+</apex:page>
